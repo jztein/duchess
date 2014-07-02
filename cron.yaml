@@ -1,0 +1,5 @@
+cron:
+- description: reduce prices every 30 minutes
+  url: /dutch
+  schedule: every 30 mins from 10:30 to 1:30
+  timezone: Asia/Singapore
