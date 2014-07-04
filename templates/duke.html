@@ -1,0 +1,91 @@
+<html>
+<head>
+<title>Mrs. Duke</title>
+
+<style>
+
+table {
+background-color:{{table_color}};
+}
+
+.current-products{
+background-color:#bbaabb;
+width:150px;
+position:relative;
+float:left;
+margin:10px;
+}
+
+.input {
+float:left;
+position:relative;
+margin:10px;
+}
+
+.output {
+float:right;
+margin:10px;
+}
+</style>
+
+</head>
+
+
+<body>
+
+
+<div class="input">
+
+<form action="/duke" method="post">
+<b>Product id</b> e.g. 312974311<br>
+<input type="text" placeholder="product id" name="pid" />
+<br>
+<b>Discount factor</b>: fraction of price that will be reduced each time<br>
+0.10 means that each time the price decreases by 10%<br>
+<input type="text" placeholder="factor: e.g. 0.10" name="factor" />
+<br>
+<b>Minimum price</b> (no need to write dollar sign) <br>
+$ <input type="text" placeholder="min price: e.g. 9.30" name="min_price" />
+<br>
+<input type="submit"/>
+</form>
+
+</div>  <!-- class: input  -->
+
+
+<div class="output">
+{{ success }}
+<br>
+<table>
+<tr>
+<th> Product id </th> <td> {{ pid }} </td>
+</tr>
+<tr>
+<th> Discount factor </th><td> {{ factor }} </td>
+</tr>
+<tr>
+<th> Minimum price </th><td> {{ min_price }} </td>
+</tr>
+</table>
+
+
+</div>  <!-- class: output  -->
+
+
+<div class="current-products">
+
+
+<h3>Current products ids and titles </h3>
+<table>
+{% for p in products %}
+<tr>
+<th> {{ p.id }} </th> <td> {{ p.title }} </td>
+</tr>
+{% endfor %}
+</table>
+</div> <!-- class: current-products -->
+
+</body>
+
+
+</html>

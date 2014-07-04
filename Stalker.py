@@ -18,7 +18,7 @@ HEADERS = { 'Authorization': "Basic " + auth }
 JSON_HEADERS = { 'Authorization': "Basic " + auth,
                  'Content-Type': 'application/json'}
 
-BASELINE_PRICE = 5.00
+BASELINE_PRICE = 0.01
 
 class UrlFetchException(IOError):
     pass
@@ -40,6 +40,17 @@ def putProductData(jsonValue, pid):
     print "##### put product data"
     print b.status_code
     print "##### end: put product data"
+
+def getProductData(pid):
+
+    b = urlfetch.fetch(url="%s/products/%s.json" % (SHOP_URL, pid),
+                       method=urlfetch.GET,
+                       headers=HEADERS)
+    print "##### GET product data"
+    print b.status_code
+    print "##### end: GET product data"
+
+    return b.status_code, b.content
 
 
 def deleteProduct(pid):
@@ -86,7 +97,7 @@ def getAllProducts():
         raise UrlFetchException('could not fetch in get all products')
 
 # change price of product named $title to $newPrice
-def changePrice(products, title, newPrice=-1, discount=0.10):
+def changePrice(products, title, newPrice=-1, discount=0.10, min_price=0.01):
     gotProduct = False
     for product in products:
         if product['title'] == title:
@@ -101,7 +112,7 @@ def changePrice(products, title, newPrice=-1, discount=0.10):
         print ">> putting new price"
         pid = newProduct['id']
 
-        if float(newPrice) < BASELINE_PRICE:
+        if float(newPrice) < min_price:
             deleteProduct(pid)
             print "!!! Deleted product:", newProduct['title']
             return
